@@ -21,10 +21,9 @@ Total Bill – ₹ 7000
 In addition, if the total service bill is more than ₹ 10000, a complimentary cleaning should be provided and specified
 in the bill.
 ----------------------------------------------------------------------------------------------------------------------------------
-Answer 1-
+Answer-
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 enum CarType {
   HATCHBACK, SEDAN, SUV
