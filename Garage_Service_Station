@@ -1,0 +1,110 @@
+Question 2:-
+Please implement a software for a car service station using Object Oriented Programming. If you are not familiar or
+comfortable with object-oriented programming, we suggest you give this article a quick read to ensure you
+understand it before you attempt it.
+
+It should have the following features:
+The car service station caters to different types of cars – Hatchback, Sedan, SUV.
+
+It provides different types of services like Basic Service, Engine Fixing, Clutch Fixing, Gear Fixing and Brake Fixing.
+Each service has a service code associated with it and different prices for different types of cars.
+
+The software should generate a detailed bill with the total amount for each service request based on the Type of
+Car specified and the requested Service Codes.
+
+Example:
+Type of Car – Hatchback
+Service Codes – BS01, EF01
+Charges for Basic Servicing – ₹ 2000
+Charges for Engine Fixing – ₹ 5000
+Total Bill – ₹ 7000
+In addition, if the total service bill is more than ₹ 10000, a complimentary cleaning should be provided and specified
+in the bill.
+----------------------------------------------------------------------------------------------------------------------------------
+Answer 1-
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+enum CarType {
+  HATCHBACK, SEDAN, SUV
+}
+
+enum ServiceType {
+  BS01("Basic Service", 2000), EF01("Engine Fixing", 5000), CF01("Clutch Fixing", 4000), GF01("Gear Fixing", 3000), BF01("Brake Fixing", 2500);
+
+  private String serviceName;
+  private int price;
+
+  ServiceType(String serviceName, int price) {
+    this.serviceName = serviceName;
+    this.price = price;
+  }
+
+  public int getPrice() {
+    return price;
+  }
+
+  public String getServiceName() {
+    return serviceName;
+  }
+}
+
+class CarService {
+  private CarType carType;
+  private ArrayList<ServiceType> services;
+
+  public CarService(CarType carType) {
+    this.carType = carType;
+    services = new ArrayList<ServiceType>();
+  }
+
+  public void addService(ServiceType service) {
+    services.add(service);
+  }
+
+  public int getTotalCost() {
+    int totalCost = 0;
+    for (ServiceType service : services) {
+      totalCost += service.getPrice();
+    }
+    return totalCost;
+  }
+
+  public void generateBill() {
+    System.out.println("Type of Car: " + carType);
+    System.out.println("Services: ");
+    for (ServiceType service : services) {
+      System.out.println(service.getServiceName() + " - ₹ " + service.getPrice());
+    }
+    int totalCost = getTotalCost();
+    System.out.println("Total Bill: ₹ " + totalCost);
+    if (totalCost > 10000) {
+      System.out.println("Complimentary cleaning provided.");
+    }
+  }
+}
+
+public class CarServiceStation {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+
+    System.out.println("Enter the type of car (HATCHBACK, SEDAN, SUV):");
+    String carTypeString = sc.nextLine();
+    CarType carType = CarType.valueOf(carTypeString.toUpperCase());
+
+    CarService carService = new CarService(carType);
+
+    System.out.println("Enter the service codes (BS01, EF01, CF01, GF01, BF01) separated by commas:");
+    String servicesString = sc.nextLine();
+    String[] servicesArray = servicesString.split(",");
+    for (String serviceString : servicesArray) {
+      ServiceType serviceType = ServiceType.valueOf(serviceString.trim().toUpperCase());
+      carService.addService(serviceType);
+    }
+
+    carService.generateBill();
+
+    sc.close();
+  }
+}
